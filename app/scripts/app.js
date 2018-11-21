@@ -49,7 +49,7 @@ Instructions:
      */
     return get(url).then(function(response) {
       return response.json(); // similar to json.parse()
-    })
+    });
   }
 
   window.addEventListener('WebComponentsReady', function() {
@@ -70,6 +70,6 @@ Instructions:
       .catch(function(error) {
         addSearchHeader('unknown');
         console.log(error);
-      })
+      });
   });
 })(document);
