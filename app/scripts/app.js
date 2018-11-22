@@ -64,6 +64,22 @@ Instructions:
 
     Your code goes here!
      */
-    // getJSON('../data/earth-like-results.json')
+    getJSON('../data/earth-like-results.json')
+      .then(function(jsonResponse) {
+        addSearchHeader(jsonResponse.query);
+        return getJSON(jsonResponse.results[0]); // return passes to then()
+      })
+      .catch(function(error) {
+        throw Error('Search Request Error');
+      })
+      // anonymous function syntax
+      // .then(function(planetData) {
+      //   createPlanetThumb(planetData)
+      // })
+      .then(createPlanetThumb) // pass the createPlanetThumb function. It will receive the same arguments as the anonymous function syntax
+      .catch(function(error) {
+        addSearchHeader('unknown');
+        console.log(error);
+      })
   });
 })(document);
