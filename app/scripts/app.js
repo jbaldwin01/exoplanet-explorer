@@ -55,10 +55,22 @@ Instructions:
 
   window.addEventListener('WebComponentsReady', function() {
     home = document.querySelector('section[data-route="home"]');
-    /*
-    Your code goes here! Uncomment the next line when you're ready to start!
-     */
-
-    // getJSON('../data/earth-like-results.json')
+    getJSON('../data/earth-like-results.json')
+      /* use .map to exucute function calls in parallel on each element in response.results */
+      /* NOTE: there is no guarenteed order when using .map.  If order is important will have to add additional logic
+      // .then(function(response) { // with anonymous function syntax
+      //   response.results.map(function(url) {
+      //     getJSON(url).then(createPlanetThumb);
+      //   });
+      // });
+      /* above commented code converted to use one arrow function expression */
+      // .then(function(response) {
+      //   response.results.map(url => getJSON(url).then(createPlanetThumb));
+      // })
+      /* above commented code converted to use 2 arrow function expressions */
+      .then(response => response.results.map(url => getJSON(url).then(createPlanetThumb))) // using 2 arrow function expressions
+      .catch(function(e) {
+        console.log(e);
+      });
   });
 })(document);
