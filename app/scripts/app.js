@@ -61,12 +61,17 @@ Hint: you'll probably still need to use .map.
      */
     getJSON('../data/earth-like-results.json')
     .then(function(response) {
-
-      addSearchHeader(response.query);
-
-      response.results.map(function(url) {
-        getJSON(url).then(createPlanetThumb);
+      return Promise.all(response.results.map(getJSON)); // eliminated anonymous function which called getJSON(url) and 
+    })                                                   // instead call getJSON directory. getJSON will still receive the url parameter.
+    .then(function(arrayOfPlanetData) { // .all guarentees the order of the resulting array matches the order of the array passed to it
+      arrayOfPlanetData.forEach(function(planet) {
+        createPlanetThumb(planet);
       });
-    });
+    })
+    // .catch(function(e) {
+    //   console.log(e);
+    // })
+    /* above commented anonymous function can be converted to direct function call. console.log will still receive the error parameter */
+    .catch(console.log);
   });
 })(document);
